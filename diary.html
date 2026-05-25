@@ -151,6 +151,74 @@
   .trend-body b { color:rgba(255,255,255,.85); font-weight:500; }
 
   footer { text-align:center; margin-top:72px; font-size:13px; color:var(--dim); opacity:.6; }
+
+  /* ── WEEKLY RECOMMENDATIONS ── */
+  .weekrec-card {
+    background: #fff; border-radius: 20px; padding: 32px;
+    margin-bottom: 40px; border: 1px solid rgba(0,0,0,.06);
+    animation: fadeUp 0.8s 0.28s ease both;
+  }
+  .weekrec-header {
+    display: flex; gap: 16px; align-items: flex-start;
+    margin-bottom: 28px; padding-bottom: 24px;
+    border-bottom: 1px solid #f0edf7;
+  }
+  .weekrec-header-icon { font-size: 2rem; flex-shrink: 0; padding-top: 4px; }
+  .weekrec-title { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--midnight); margin-bottom: 6px; }
+  .weekrec-sub { font-size: 14px; color: var(--dim); line-height: 1.65; }
+
+  .weekrec-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 10px; }
+  @media(max-width:700px) { .weekrec-grid { grid-template-columns: repeat(2,1fr); } }
+
+  .wr-day {
+    border-radius: 14px; padding: 14px 12px;
+    position: relative; display: flex; flex-direction: column; gap: 5px;
+    border: 1px solid transparent;
+  }
+  .wr-badge {
+    position: absolute; top: 8px; right: 8px;
+    font-size: 8px; font-weight: 500; text-transform: uppercase; letter-spacing: .05em;
+    padding: 2px 6px; border-radius: 8px;
+  }
+  .wr-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--midnight); line-height: 1; }
+  .wr-emoji { font-size: 1.5rem; }
+  .wr-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .07em; line-height: 1.3; }
+  .wr-energy { display: flex; gap: 3px; align-items: center; margin-top: 2px; }
+  .wr-energy-lbl { font-size: 9px; color: var(--dim); opacity: .7; margin-right: 2px; }
+  .wrdot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+  .wr-sleep { font-size: 11px; font-weight: 500; color: var(--midnight); }
+  .wr-sleep-bad { color: #c04040 !important; }
+  .wr-sleep-good { color: #2a7a55 !important; }
+  .wr-tip { font-size: 11px; color: var(--dim); line-height: 1.5; margin-top: 2px; }
+  .weekrec-legend { display: flex; gap: 16px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f0edf7; flex-wrap: wrap; }
+  .weekrec-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--dim); }
+  .weekrec-legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+  .wr-gym { background: #fffcf0; border-color: rgba(212,168,67,.25); }
+  .wr-gym .wr-label { color: #9a7010; }
+  .wr-gym .wr-badge { background: rgba(212,168,67,.18); color: #9a7010; }
+  .wr-gym .wrdot { background: #f0dcb0; }
+  .wr-gym .wrdot.on { background: var(--gold); }
+
+  .wr-gym-opt { background: #fffdf4; border-color: rgba(212,168,67,.15); }
+  .wr-gym-opt .wr-label { color: #b08020; }
+  .wr-gym-opt .wrdot { background: #f0e4c0; }
+  .wr-gym-opt .wrdot.on { background: #d4b843; }
+
+  .wr-walk { background: #f2f9f6; border-color: rgba(127,201,168,.4); }
+  .wr-walk .wr-label { color: #2a6a50; }
+  .wr-walk .wrdot { background: #c0e8d8; }
+  .wr-walk .wrdot.on { background: #7fc9a8; }
+
+  .wr-light { background: #f7f3ff; border-color: rgba(201,184,232,.3); }
+  .wr-light .wr-label { color: #6040a0; }
+  .wr-light .wrdot { background: #e4dcf8; }
+  .wr-light .wrdot.on { background: var(--lavender); }
+
+  .wr-rest { background: #fff5f5; border-color: rgba(228,140,140,.3); }
+  .wr-rest .wr-label { color: #8a3030; }
+  .wr-rest .wrdot { background: #f4d4d4; }
+  .wr-rest .wrdot.on { background: #e09090; }
 </style>
 </head>
 <body>
@@ -389,6 +457,108 @@
           За три недели средний сон по Apple Watch: <b>5 ч 40 → 5 ч 40 → 5 ч 22</b>. Цифра медленно снижается, но важнее другое: неделя 3 показала первые структурные улучшения — меньше долгих ночных перерывов, появились медитации и ванночка для ног. <b>Часы учитывают лёгкий и беспокойный сон</b>, который тело не воспринимает как полноценный отдых. Важно отслеживать оба показателя: цифру часов <em>и</em> субъективное качество.
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- WEEKLY RECOMMENDATIONS -->
+  <p class="section-label">Расписание по дням недели</p>
+  <div class="weekrec-card">
+    <div class="weekrec-header">
+      <div class="weekrec-header-icon">📅</div>
+      <div>
+        <div class="weekrec-title">Когда в зал · когда отдыхать</div>
+        <div class="weekrec-sub">На основе 21 ночи наблюдений: вторник и среда — твои лучшие дни для нагрузки три недели подряд. Четверг и воскресенье — стабильный пик накопленного дефицита. Точки = уровень энергии (сон прошлой ночью), стрелка = чего ожидать ночью после.</div>
+      </div>
+    </div>
+
+    <div class="weekrec-grid">
+
+      <div class="wr-day wr-walk">
+        <div class="wr-name">Пн</div>
+        <div class="wr-emoji">🚶</div>
+        <div class="wr-label">Прогулка</div>
+        <div class="wr-energy">
+          <span class="wrdot on"></span><span class="wrdot"></span><span class="wrdot"></span>
+        </div>
+        <div class="wr-sleep">→ ~5.2 ч</div>
+        <div class="wr-tip">Воскресенье — самый короткий сон (~4.9 ч). Сил мало. Прогулка 9–10 км вечером закладывает хороший понедельник.</div>
+      </div>
+
+      <div class="wr-day wr-gym">
+        <div class="wr-badge">★ лучший</div>
+        <div class="wr-name">Вт</div>
+        <div class="wr-emoji">🏋️</div>
+        <div class="wr-label">Зал!</div>
+        <div class="wr-energy">
+          <span class="wrdot on"></span><span class="wrdot on"></span><span class="wrdot"></span>
+        </div>
+        <div class="wr-sleep wr-sleep-good">→ ~6 ч ★</div>
+        <div class="wr-tip">Три недели подряд — лучшая ночь после вторника (6 ч). Тело стабильно отзывается на нагрузку именно в этот день.</div>
+      </div>
+
+      <div class="wr-day wr-gym">
+        <div class="wr-name">Ср</div>
+        <div class="wr-emoji">🏋️</div>
+        <div class="wr-label">Зал</div>
+        <div class="wr-energy">
+          <span class="wrdot on"></span><span class="wrdot on"></span><span class="wrdot on"></span>
+        </div>
+        <div class="wr-sleep">→ ~5.4 ч</div>
+        <div class="wr-tip">После лучшей ночи недели (вт, 6 ч) — максимум сил за всю неделю. Идеальный день для интенсивного занятия.</div>
+      </div>
+
+      <div class="wr-day wr-rest">
+        <div class="wr-name">Чт</div>
+        <div class="wr-emoji">🛋️</div>
+        <div class="wr-label">Отдых</div>
+        <div class="wr-energy">
+          <span class="wrdot on"></span><span class="wrdot on"></span><span class="wrdot"></span>
+        </div>
+        <div class="wr-sleep wr-sleep-bad">→ ~5.0 ч ↓</div>
+        <div class="wr-tip">Пик дефицита: в нед. 1 самая тяжёлая ночь (4.5 ч). Лучше дневной сон, ванночка, без зала.</div>
+      </div>
+
+      <div class="wr-day wr-light">
+        <div class="wr-name">Пт</div>
+        <div class="wr-emoji">🧘</div>
+        <div class="wr-label">Лёгкое</div>
+        <div class="wr-energy">
+          <span class="wrdot on"></span><span class="wrdot"></span><span class="wrdot"></span>
+        </div>
+        <div class="wr-sleep">→ ~5.7 ч</div>
+        <div class="wr-tip">Переход к выходным. Прогулка — да, тяжёлый зал — риск. Ночь непредсказуема: от 4.5 до 6.5 ч.</div>
+      </div>
+
+      <div class="wr-day wr-gym-opt">
+        <div class="wr-name">Сб</div>
+        <div class="wr-emoji">🏋️</div>
+        <div class="wr-label">Зал / прогулка</div>
+        <div class="wr-energy">
+          <span class="wrdot on"></span><span class="wrdot on"></span><span class="wrdot"></span>
+        </div>
+        <div class="wr-sleep">→ ~5.2 ч</div>
+        <div class="wr-tip">Если хорошо спала в пятницу — зал подходит. Но дневной сон в приоритете для компенсации недели.</div>
+      </div>
+
+      <div class="wr-day wr-rest">
+        <div class="wr-name">Вс</div>
+        <div class="wr-emoji">🦶</div>
+        <div class="wr-label">Восстановление</div>
+        <div class="wr-energy">
+          <span class="wrdot on"></span><span class="wrdot on"></span><span class="wrdot"></span>
+        </div>
+        <div class="wr-sleep wr-sleep-bad">→ ~4.9 ч ↓</div>
+        <div class="wr-tip">Стабильно худшая ночь (4.9 ч среднее, нед. 3 — всего 4 ч). Ванночка, медитация, ранний отбой.</div>
+      </div>
+
+    </div>
+
+    <div class="weekrec-legend">
+      <div class="weekrec-legend-item"><div class="weekrec-legend-dot" style="background:#fffcf0;border:1.5px solid rgba(212,168,67,.5)"></div>Зал — рекомендуется</div>
+      <div class="weekrec-legend-item"><div class="weekrec-legend-dot" style="background:#f2f9f6;border:1.5px solid rgba(127,201,168,.6)"></div>Прогулка / умеренная активность</div>
+      <div class="weekrec-legend-item"><div class="weekrec-legend-dot" style="background:#f7f3ff;border:1.5px solid rgba(201,184,232,.5)"></div>Лёгкое / медитация</div>
+      <div class="weekrec-legend-item"><div class="weekrec-legend-dot" style="background:#fff5f5;border:1.5px solid rgba(228,140,140,.5)"></div>Отдых / восстановление</div>
+      <div class="weekrec-legend-item" style="margin-left:auto;opacity:.6">● = энергия утром (сон прошлой ночью)</div>
     </div>
   </div>
 
