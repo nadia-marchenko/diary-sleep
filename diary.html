@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Дневник сна · Три недели</title>
+<title>Дневник сна · Четыре недели</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -56,8 +56,8 @@
   .section-label::after { content:''; flex:1; height:1px; background:linear-gradient(to right,#c5b8d8,transparent); }
 
   /* ── WEEK CARDS ── */
-  .weeks-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 48px; animation: fadeUp 0.8s 0.05s ease both; }
-  @media(max-width:800px){ .weeks-grid{grid-template-columns:1fr 1fr} }
+  .weeks-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; margin-bottom: 48px; animation: fadeUp 0.8s 0.05s ease both; }
+  @media(max-width:900px){ .weeks-grid{grid-template-columns:1fr 1fr} }
   @media(max-width:500px){ .weeks-grid{grid-template-columns:1fr} }
 
   .week-card {
@@ -228,7 +228,7 @@
   <header>
     <span class="moon">🌙</span>
     <p class="eyebrow">Дневник сна · Май 2026</p>
-    <h1>Три недели<br><em>наблюдений</em></h1>
+    <h1>Четыре недели<br><em>наблюдений</em></h1>
     <p class="subtitle">анализ сна, активности и паттернов · май 2026</p>
     <div class="source-badge">⌚ Apple Watch + личный дневник · рекомендация психолога</div>
   </header>
@@ -303,15 +303,37 @@
       <div class="wc-btn">Открыть дневник →</div>
     </a>
 
+    <a href="week4.html" class="week-card" style="background:linear-gradient(145deg,#1e1535,#2d2215);">
+      <div class="wc-label">Неделя 4</div>
+      <div class="wc-title">22 — 28 мая</div>
+      <div class="wc-period">пятница → четверг · 7 ночей</div>
+      <div class="wc-badge wc-badge-ok">Рекорд + когниц. техника</div>
+      <div class="wc-stats">
+        <div class="wc-stat">
+          <div class="wc-stat-val">5 ч 58</div>
+          <div class="wc-stat-lbl">среднее (Watch)</div>
+        </div>
+        <div class="wc-stat">
+          <div class="wc-stat-val">6,5 ч</div>
+          <div class="wc-stat-lbl">лучшая ночь</div>
+        </div>
+        <div class="wc-stat">
+          <div class="wc-stat-val">~4 ч</div>
+          <div class="wc-stat-lbl">худшая ночь</div>
+        </div>
+      </div>
+      <div class="wc-btn">Открыть дневник →</div>
+    </a>
+
   </div>
 
   <!-- 14-NIGHT CHART -->
-  <p class="section-label">Сон за 21 ночь</p>
+  <p class="section-label">Сон за 28 ночей</p>
   <div class="chart-card">
-    <div class="chart-title">Продолжительность сна — три недели</div>
-    <div class="chart-sub">Apple Watch · синий = неделя 1 · розовый = неделя 2 · зелёный = неделя 3 · пунктир = норма 7 ч</div>
+    <div class="chart-title">Продолжительность сна — четыре недели</div>
+    <div class="chart-sub">Apple Watch · синий = неделя 1 · розовый = неделя 2 · зелёный = неделя 3 · золотой = неделя 4 · пунктир = норма 7 ч</div>
 
-    <div class="nights-chart" style="grid-template-columns:repeat(7,1fr) 14px repeat(7,1fr) 14px repeat(7,1fr)">
+    <div class="nights-chart" style="grid-template-columns:repeat(7,1fr) 14px repeat(7,1fr) 14px repeat(7,1fr) 14px repeat(7,1fr)">
 
       <!-- WEEK 1 (7 nights) -->
       <div class="nc-bar-group">
@@ -437,12 +459,57 @@
         <div class="nc-bar-wrap"><div class="nc-bar" style="height:86%;background:linear-gradient(to top,#1a5a3a,#90c4a8);animation-delay:1.05s"></div></div>
         <div class="nc-bar-day">Ср</div>
       </div>
+
+      <!-- DIVIDER 3 -->
+      <div class="nc-divider">
+        <div class="nc-divider-line"></div>
+        <div class="nc-divider-lbl">нед. 3 · нед. 4</div>
+        <div class="nc-divider-line"></div>
+      </div>
+
+      <!-- WEEK 4 (7 nights, amber/gold) -->
+      <div class="nc-bar-group">
+        <div class="nc-bar-val" style="color:#d4b870;font-size:9px">6 ч</div>
+        <div class="nc-bar-wrap"><div class="nc-bar" style="height:86%;background:linear-gradient(to top,#7a5010,#d4b870);animation-delay:1.1s"></div></div>
+        <div class="nc-bar-day">Чт</div>
+      </div>
+      <div class="nc-bar-group">
+        <div class="nc-bar-val" style="color:#d4b870;font-size:9px">5,5</div>
+        <div class="nc-bar-wrap"><div class="nc-bar" style="height:79%;background:linear-gradient(to top,#7a5010,#d4b870);animation-delay:1.15s"></div></div>
+        <div class="nc-bar-day">Пт</div>
+      </div>
+      <div class="nc-bar-group">
+        <div class="nc-bar-val" style="color:#d4b870;font-size:9px">4 ч</div>
+        <div class="nc-bar-wrap"><div class="nc-bar" style="height:57%;background:linear-gradient(to top,#7a5010,#d4b870);animation-delay:1.2s"></div></div>
+        <div class="nc-bar-day">Сб</div>
+      </div>
+      <div class="nc-bar-group">
+        <div class="nc-bar-val" style="color:#d4b870;font-size:9px">~6 ч</div>
+        <div class="nc-bar-wrap"><div class="nc-bar" style="height:86%;background:linear-gradient(to top,#7a5010,#d4b870);animation-delay:1.25s"></div></div>
+        <div class="nc-bar-day">Вс</div>
+      </div>
+      <div class="nc-bar-group">
+        <div class="nc-bar-val" style="color:#d4b870;font-size:9px">5,5</div>
+        <div class="nc-bar-wrap"><div class="nc-bar" style="height:79%;background:linear-gradient(to top,#7a5010,#d4b870);animation-delay:1.3s"></div></div>
+        <div class="nc-bar-day">Пн</div>
+      </div>
+      <div class="nc-bar-group">
+        <div class="nc-bar-val" style="color:#d4b870;font-size:9px">6,5 ★</div>
+        <div class="nc-bar-wrap"><div class="nc-bar" style="height:93%;background:linear-gradient(to top,#7a5010,#d4b870);animation-delay:1.35s"></div></div>
+        <div class="nc-bar-day">Вт</div>
+      </div>
+      <div class="nc-bar-group">
+        <div class="nc-bar-val" style="color:#d4b870;font-size:9px">6 ч</div>
+        <div class="nc-bar-wrap"><div class="nc-bar" style="height:86%;background:linear-gradient(to top,#7a5010,#d4b870);animation-delay:1.4s"></div></div>
+        <div class="nc-bar-day">Ср</div>
+      </div>
     </div>
 
     <div class="chart-legend">
       <div class="legend-item"><div class="legend-dot" style="background:var(--lavender)"></div>Неделя 1 (1–7 мая)</div>
       <div class="legend-item"><div class="legend-dot" style="background:#e8a0a0"></div>Неделя 2 (8–14 мая)</div>
       <div class="legend-item"><div class="legend-dot" style="background:#90c4a8"></div>Неделя 3 (15–21 мая)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#d4b870"></div>Неделя 4 (22–28 мая)</div>
       <div class="legend-item" style="margin-left:auto;font-size:11px;opacity:.4">Норма: 7–9 ч</div>
     </div>
   </div>
@@ -452,9 +519,9 @@
     <div class="trend-inner">
       <div class="trend-icon">📊</div>
       <div class="trend-text">
-        <div class="trend-title">Одна цифра — разные ощущения</div>
+        <div class="trend-title">Медленный, но реальный прогресс</div>
         <div class="trend-body">
-          За три недели средний сон по Apple Watch: <b>5 ч 40 → 5 ч 40 → 5 ч 22</b>. Цифра медленно снижается, но важнее другое: неделя 3 показала первые структурные улучшения — меньше долгих ночных перерывов, появились медитации и ванночка для ног. <b>Часы учитывают лёгкий и беспокойный сон</b>, который тело не воспринимает как полноценный отдых. Важно отслеживать оба показателя: цифру часов <em>и</em> субъективное качество.
+          За четыре недели средний сон по Apple Watch: <b>5 ч 40 → 5 ч 40 → 5 ч 22 → 5 ч 58</b>. Неделя 4 — рекорд за всё время наблюдений. Ключевые изменения: <b>появилась когнитивная техника</b> (рациональное убеждение себя), стабилизировались медитации, три ночи без долгого перерыва. <b>Часы учитывают лёгкий и беспокойный сон</b>, который тело не воспринимает как полноценный отдых. Направление — правильное.
         </div>
       </div>
     </div>
@@ -467,7 +534,7 @@
       <div class="weekrec-header-icon">📅</div>
       <div>
         <div class="weekrec-title">Когда в зал · когда отдыхать</div>
-        <div class="weekrec-sub">На основе 21 ночи наблюдений: вторник и среда — твои лучшие дни для нагрузки три недели подряд. Четверг и воскресенье — стабильный пик накопленного дефицита. Точки = уровень энергии (сон прошлой ночью), стрелка = чего ожидать ночью после.</div>
+        <div class="weekrec-sub">На основе 28 ночей наблюдений: вторник — лучший день для нагрузки четыре недели подряд (ночь Вт/Ср — рекорд 6,5 ч в неделях 3 и 4). Воскресенье — стабильный пик дефицита. Точки = уровень энергии (сон прошлой ночью), стрелка = чего ожидать ночью после.</div>
       </div>
     </div>
 
@@ -573,6 +640,7 @@
           <th>Неделя 1<br><span style="font-weight:300;font-size:11px;text-transform:none;letter-spacing:0">1–7 мая</span></th>
           <th>Неделя 2<br><span style="font-weight:300;font-size:11px;text-transform:none;letter-spacing:0">8–14 мая</span></th>
           <th>Неделя 3<br><span style="font-weight:300;font-size:11px;text-transform:none;letter-spacing:0">15–21 мая</span></th>
+          <th>Неделя 4<br><span style="font-weight:300;font-size:11px;text-transform:none;letter-spacing:0">22–28 мая</span></th>
         </tr>
       </thead>
       <tbody>
@@ -581,48 +649,56 @@
           <td>5 ч 40 мин</td>
           <td class="val-same">5 ч 40 мин</td>
           <td class="val-bad">5 ч 22 мин</td>
+          <td class="val-good">5 ч 58 мин ★</td>
         </tr>
         <tr>
           <td>Субъективное качество сна</td>
           <td class="val-good">Средне–удовлетворительно</td>
           <td class="val-bad">Плохо–очень плохо</td>
-          <td class="val-bad">Плохо, но есть улучшения</td>
+          <td class="val-bad">Плохо, но улучшения</td>
+          <td class="val-good">Лучше, 3 хороших ночи</td>
         </tr>
         <tr>
           <td>Лучшая ночь</td>
           <td class="val-good">6 ч (Вт/Ср)</td>
           <td class="val-same">~6 ч (Вт/Ср)</td>
           <td class="val-good">~6,5 ч (Пт/Сб)</td>
+          <td class="val-good">~6,5 ч (Вт/Ср)</td>
         </tr>
         <tr>
           <td>Худшая ночь (реально)</td>
           <td class="val-same">~4,5 ч (Ср/Чт)</td>
           <td class="val-bad">~2 ч реальных (Пт/Сб)</td>
           <td class="val-bad">~3–4 ч (Сб/Вс, RLS)</td>
+          <td class="val-same">~4 ч (Сб/Вс)</td>
         </tr>
         <tr>
           <td>Ночи без долгого перерыва</td>
           <td>1–2</td>
           <td class="val-bad">1–2</td>
           <td class="val-good">3–4</td>
+          <td class="val-good">3</td>
         </tr>
         <tr>
           <td>Суммарная ходьба</td>
           <td>~47 км</td>
           <td class="val-good">~53 км</td>
           <td class="val-same">~42 км</td>
+          <td class="val-same">~39 км</td>
         </tr>
         <tr>
           <td>Новые инструменты</td>
           <td>Подушка, магний</td>
           <td class="val-good">Двойной мяч, другая комната</td>
           <td class="val-good">Медитации, ванночка для ног</td>
+          <td class="val-good">Когнитивная техника</td>
         </tr>
         <tr>
           <td>Дневной сон</td>
           <td>Редко</td>
           <td class="val-good">В большинстве дней (1–1,5 ч)</td>
           <td class="val-same">Несколько дней</td>
+          <td class="val-same">1–2 раза (не заснула)</td>
         </tr>
       </tbody>
     </table>
@@ -690,7 +766,15 @@
           <span class="works-icon">🧘</span>
           <div class="works-text">
             <strong>Медитации</strong>
-            <p>Начались с недели 3. Прямого влияния на сон пока не видно, но помогают снизить дневную тревогу и создать ощущение контроля над ситуацией.</p>
+            <p>Стабильно практикуются с недели 3 — уже 2 недели подряд. Помогают снизить тревогу и создают ощущение контроля. Косвенный вклад в улучшение сна очевиден.</p>
+          </div>
+        </div>
+        <div class="works-divider"></div>
+        <div class="works-item">
+          <span class="works-icon">🧠</span>
+          <div class="works-text">
+            <strong>Когнитивная техника: «убедить себя»</strong>
+            <p>Новый инструмент недели 4. Перед лучшей ночью: «убедила себя, что будильник разбудит и я буду знать что делать». Снижает предвосхищающую тревогу — один из ключевых нарушителей сна.</p>
           </div>
         </div>
       </div>
@@ -749,13 +833,13 @@
   <!-- CROSS-WEEK FINDINGS -->
   <p class="section-label">Сквозные закономерности</p>
   <div class="findings">
-    <div class="findings-title">Паттерны за 3 недели</div>
+    <div class="findings-title">Паттерны за 4 недели</div>
 
     <div class="finding">
       <div class="finding-num">1</div>
       <div class="finding-text">
-        <strong>Сон стабильно короче нормы — и этот паттерн устойчив</strong>
-        <p>Apple Watch фиксируют <span class="highlight">5 ч 20–40 мин</span> три недели подряд — при рекомендуемых 7–9 часах. Это не случайность: дефицит сна при беременности требует отдельного разговора с врачом и психологом.</p>
+        <strong>Устойчивый прогресс к неделе 4</strong>
+        <p>Apple Watch: <span class="highlight">5 ч 40 → 5 ч 40 → 5 ч 22 → 5 ч 58</span>. Неделя 4 — рекорд за всё время. Структурных улучшений всё больше: 3–4 ночи без долгих перерывов. Темп медленный, но направление правильное.</p>
       </div>
     </div>
 
@@ -763,23 +847,23 @@
       <div class="finding-num">2</div>
       <div class="finding-text">
         <strong>Формула лучшей ночи складывается</strong>
-        <p>Из трёх недель наблюдений: <span class="highlight">двойной мяч для затылка + ванночка для ног + никаких гаджетов + если не спится — другая комната с книгой + медитация</span>. Вечерний ритуал важнее, чем количество пройденных за день километров.</p>
+        <p>Из четырёх недель: <span class="highlight">позитивный эмоциональный фон вечером + когнитивное спокойствие + двойной мяч + ванночка + медитация</span>. Вечерний ритуал и состояние духа важнее, чем количество пройденных за день километров.</p>
       </div>
     </div>
 
     <div class="finding">
       <div class="finding-num">3</div>
       <div class="finding-text">
-        <strong>Структура улучшается, даже когда цифра не растёт</strong>
-        <p>Неделя 3 показала <span class="highlight">меньше долгих ночных перерывов</span> — классического паттерна «проснулась в 1:00, бодрствую до 5:00». Это качественное улучшение, которое Apple Watch не всегда отражают в среднем числе часов.</p>
+        <strong>Тревога (любая) — главный нарушитель сна</strong>
+        <p>Плохие ночи во всех четырёх неделях имеют общий знаменатель: <span class="highlight">тревога или возбуждение</span> — тревога из-за боли, волнение перед событием, усталость без выхода. Работа с тревогой (медитации, когнитивные техники) — самое важное направление.</p>
       </div>
     </div>
 
     <div class="finding">
       <div class="finding-num">4</div>
       <div class="finding-text">
-        <strong>Накопленный дефицит → срыв в середине–конце недели</strong>
-        <p>Во всех трёх неделях самые тяжёлые ночи приходились на <span class="highlight">среду–четверг</span>. К этому времени накопленный недосып достигает пика. Важно закладывать компенсацию (дневной сон, сниженная нагрузка) именно в эти дни.</p>
+        <strong>Структура улучшается быстрее, чем цифра</strong>
+        <p>Неделя 3: меньше долгих ночных перерывов. Неделя 4: компактные непрерывные сны в лучшие ночи. <span class="highlight">Качественное улучшение</span> структуры сна происходит раньше, чем растёт среднее число часов по Apple Watch.</p>
       </div>
     </div>
 
@@ -787,22 +871,22 @@
       <div class="finding-num">5</div>
       <div class="finding-text">
         <strong>Физический дискомфорт — отдельная медицинская задача</strong>
-        <p>Синдром беспокойных ног, боли в бёдрах, напряжение в затылке — физические симптомы не поддаются поведенческим ритуалам. <span class="highlight">RLS при беременности лечится</span>. Двойной мяч уже помог с напряжением в шее. Остальное стоит обсудить с врачом.</p>
+        <p>Синдром беспокойных ног, боли в бёдрах, напряжение в затылке — физические симптомы не поддаются поведенческим ритуалам. <span class="highlight">RLS при беременности лечится</span>. Двойной мяч помог с затылком. Остальное стоит обсудить с врачом.</p>
       </div>
     </div>
 
     <div class="finding">
       <div class="finding-num">6</div>
       <div class="finding-text">
-        <strong>Прогресс есть — даже если не чувствуется</strong>
-        <p>До начала наблюдений сон был <span class="highlight">2–4 часа за ночь</span>. За три недели стабильно удерживается 4,5–6,5 часов. Освоены 6+ инструментов. Начаты медитации. Это реальные изменения — особенно в условиях беременности и хронического недосыпания.</p>
+        <strong>Прогресс есть — и теперь он виден в цифрах</strong>
+        <p>До наблюдений сон был <span class="highlight">2–4 часа за ночь</span>. За четыре недели стабильно 4,5–6,5 часов, рекорд — 5 ч 58 мин. Освоены 7+ инструментов. Медитации вошли в привычку. Это реальные изменения — особенно в условиях беременности.</p>
       </div>
     </div>
 
   </div>
 
   <footer>
-    <p>Дневник сна · Apple Watch + личные записи · Май 2026 · 3 недели наблюдения · по рекомендации психолога</p>
+    <p>Дневник сна · Apple Watch + личные записи · Май 2026 · 4 недели наблюдения · по рекомендации психолога</p>
   </footer>
 
 </div>

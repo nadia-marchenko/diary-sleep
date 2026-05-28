@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дневник сна · Неделя 4</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1624;
+    --paper: #f5f0eb;
+    --midnight: #1e1535;
+    --lavender: #c9b8e8;
+    --blush: #e8c4c4;
+    --sage: #b8d4c9;
+    --gold: #d4a843;
+    --dim: #7a6f8a;
+    --orange: #e8622a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 17px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  .page { max-width: 960px; margin: 0 auto; padding: 72px 40px 96px; position: relative; z-index: 1; }
+
+  header { text-align: center; margin-bottom: 64px; animation: fadeUp 0.8s ease both; }
+  .moon { font-size: 3.4rem; display: block; margin-bottom: 16px; animation: sway 4s ease-in-out infinite; }
+  @keyframes sway { 0%,100%{transform:rotate(-5deg)} 50%{transform:rotate(5deg)} }
+  h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 7vw, 4.2rem); font-weight: 700; line-height: 1.1; color: var(--midnight); margin-bottom: 10px; }
+  .eyebrow { font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; }
+  .subtitle { font-size: 17px; color: var(--dim); font-style: italic; }
+  .source-badge { display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1px solid rgba(0,0,0,0.08); border-radius: 20px; padding: 6px 16px; font-size: 13px; color: var(--dim); margin-top: 14px; }
+
+  .section-label { font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+  .section-label::after { content:''; flex:1; height:1px; background:linear-gradient(to right,#c5b8d8,transparent); }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes growUp { from{transform:scaleY(0);transform-origin:bottom} to{transform:scaleY(1);transform-origin:bottom} }
+  @keyframes slideIn { from{width:0!important} }
+
+  /* ── WEEK NAV ── */
+  .week-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 52px; padding: 14px 22px; background: var(--midnight); border-radius: 16px; animation: fadeUp 0.5s ease both; }
+  .wn-home { font-size: 13px; color: rgba(255,255,255,.45); text-decoration: none; transition: color .2s; }
+  .wn-home:hover { color: #fff; }
+  .wn-weeks { display: flex; gap: 4px; }
+  .wn-link { font-size: 13px; padding: 7px 16px; border-radius: 10px; text-decoration: none; color: rgba(255,255,255,.45); transition: background .2s, color .2s; }
+  .wn-link:hover { background: rgba(255,255,255,.08); color: #fff; }
+  .wn-link.active { background: rgba(201,184,232,.18); color: var(--lavender); font-weight: 500; }
+
+  /* ── STAT CARDS ── */
+  .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 44px; animation: fadeUp 0.8s 0.05s ease both; }
+  @media(max-width:560px){ .stats-grid{grid-template-columns:1fr 1fr} }
+  .stat-card { background: var(--midnight); border-radius: 18px; padding: 24px 22px; color:#fff; }
+  .stat-icon { font-size: 1.9rem; margin-bottom: 14px; display:block; }
+  .stat-val { font-family:'Playfair Display',serif; font-size: 2.2rem; font-weight:700; color:var(--lavender); line-height:1; margin-bottom:6px; }
+  .stat-label { font-size: 13px; opacity:.55; line-height:1.4; }
+
+  /* ── PROGRESS BANNER ── */
+  .progress-banner { background: linear-gradient(135deg, #1e1535 0%, #2d1f4a 100%); border-radius: 20px; padding: 28px 32px; margin-bottom: 40px; animation: fadeUp 0.8s 0.07s ease both; position: relative; overflow: hidden; border: 1px solid rgba(201,184,232,.2); }
+  .progress-banner::after { content:''; position:absolute; bottom:-40px; right:-40px; width:160px; height:160px; background:radial-gradient(circle,rgba(184,212,201,.12) 0%,transparent 70%); pointer-events:none; }
+  .progress-inner { display:flex; align-items:center; gap:32px; flex-wrap:wrap; }
+  .progress-icon { font-size:2.4rem; flex-shrink:0; }
+  .progress-text { flex:1; min-width:180px; }
+  .progress-title { font-family:'Playfair Display',serif; color:#fff; font-size: 1.3rem; margin-bottom:8px; }
+  .progress-desc { font-size: 14px; color:rgba(255,255,255,.55); line-height:1.7; }
+  .progress-compare { display:flex; gap:20px; flex-wrap:wrap; }
+  .prog-block { text-align:center; }
+  .prog-period { font-size:11px; text-transform:uppercase; letter-spacing:.15em; color:rgba(255,255,255,.35); margin-bottom:5px; }
+  .prog-val { font-family:'Playfair Display',serif; font-size: 1.9rem; font-weight:700; line-height:1; }
+  .prog-val-bad { color:#e8c4c4; }
+  .prog-val-good { color:#b8d4c9; }
+  .prog-val-same { color:var(--lavender); }
+  .prog-arrow { font-size:1.2rem; opacity:.4; align-self:center; padding-top:16px; }
+
+  /* ── DUAL CHART ── */
+  .chart-card { background: var(--midnight); border-radius: 20px; padding: 36px 32px 28px; margin-bottom: 40px; animation: fadeUp 0.8s 0.1s ease both; position: relative; overflow: hidden; }
+  .chart-card::before { content:''; position:absolute; top:-60px; right:-60px; width:200px; height:200px; background:radial-gradient(circle,rgba(201,184,232,.15) 0%,transparent 70%); pointer-events:none; }
+  .chart-title { font-family:'Playfair Display',serif; color:#fff; font-size: 1.35rem; margin-bottom:8px; opacity:.9; }
+  .chart-sub { font-size: 13px; color:rgba(255,255,255,.4); margin-bottom:32px; }
+  .dual-bars { display: grid; grid-template-columns: repeat(7,1fr); gap: 10px; align-items: end; height: 180px; position: relative; }
+  .dual-bars::before { content: ''; position: absolute; left: 0; right: 0; bottom: 88%; border-top: 1px dashed rgba(255,255,255,.15); }
+  .bar-group { display:flex; flex-direction:column; align-items:center; height:100%; gap:4px; }
+  .bar-pair { width:100%; flex:1; display:flex; gap:3px; align-items:flex-end; }
+  .b-sleep, .b-walk { flex:1; border-radius:5px 5px 3px 3px; animation: growUp 1s cubic-bezier(.34,1.56,.64,1) both; min-height: 4px; }
+  .b-sleep { background: linear-gradient(to top,#4a3280,var(--lavender)); }
+  .b-walk  { background: linear-gradient(to top,#8a3010,var(--orange)); opacity:.85; }
+  .bar-day { color:rgba(255,255,255,.4); font-size:11px; text-align:center; letter-spacing:.05em; }
+  .bar-vals { display:flex; gap:3px; width:100%; justify-content:space-between; margin-bottom:3px; flex-shrink:0; }
+  .bv-sleep { font-size:10px; color:var(--lavender); flex:1; text-align:center; opacity:.8; }
+  .bv-walk  { font-size:10px; color:var(--orange);   flex:1; text-align:center; opacity:.8; }
+  .rec-label { font-size:11px; color:rgba(255,255,255,.3); position:absolute; right:0; bottom:88%; transform:translateY(50%); white-space:nowrap; }
+  .dual-legend { display:flex; gap:20px; margin-top:20px; flex-wrap:wrap; }
+  .legend-item { display:flex; align-items:center; gap:6px; font-size: 13px; color:rgba(255,255,255,.5); }
+  .legend-dot { width:10px; height:10px; border-radius:50%; }
+
+  /* ── CORRELATION CARD ── */
+  .corr-card { background: #fff; border-radius: 20px; padding: 32px; margin-bottom: 40px; border: 1px solid rgba(0,0,0,.06); animation: fadeUp 0.8s 0.15s ease both; }
+  .corr-title { font-family:'Playfair Display',serif; font-size: 1.35rem; margin-bottom:28px; color:var(--midnight); }
+  .corr-rows { display:flex; flex-direction:column; gap:14px; }
+  .corr-row { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 10px 14px; align-items: center; }
+  .corr-day-lbl { font-size: 13px; color:var(--dim); text-align:right; }
+  .mini-bar-wrap { height:12px; border-radius:7px; overflow:hidden; background:#f0edf7; }
+  .mini-bar { height:100%; border-radius:7px; animation: slideIn 1s cubic-bezier(.34,1.2,.64,1) both; }
+  .mini-sleep { background: linear-gradient(to right,#7c5cbf,var(--lavender)); }
+  .mini-walk  { background: linear-gradient(to right,#c04010,var(--orange)); }
+  .mini-val { font-size: 13px; color:var(--dim); font-weight:500; white-space:nowrap; }
+  .corr-header { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 10px 14px; margin-bottom:6px; }
+  .corr-header span { font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--dim); }
+  .corr-insight { margin-top: 20px; padding: 16px 20px; background: #f7f3ff; border-radius: 12px; border-left: 3px solid var(--lavender); font-size: 14px; color: var(--midnight); line-height: 1.65; }
+
+  /* ── TIMELINE ── */
+  .timeline-card { background:#fff; border-radius:20px; padding:32px; margin-bottom:40px; border:1px solid rgba(0,0,0,.06); animation: fadeUp 0.8s 0.2s ease both; }
+  .tl-title { font-family:'Playfair Display',serif; font-size: 1.35rem; margin-bottom:10px; color:var(--midnight); }
+  .tl-sub { font-size: 13px; color:var(--dim); margin-bottom:26px; }
+  .tl-legend { display:flex; gap:14px; margin-bottom:22px; flex-wrap:wrap; }
+  .tl-legend-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--dim); }
+  .tl-dot { width:16px; height:12px; border-radius:3px; display:inline-block; }
+  .tl-axis { display:grid; grid-template-columns:72px 1fr; gap:0 16px; margin-bottom:8px; }
+  .tl-axis-labels { display:flex; justify-content:space-between; }
+  .tl-axis-labels span { font-size:11px; color:var(--dim); }
+  .tl-row { display:grid; grid-template-columns:72px 1fr; gap:4px 16px; margin-bottom:6px; align-items:center; }
+  .tl-lbl { font-size:12px; color:var(--dim); text-align:right; white-space:nowrap; }
+  .tl-track { display:flex; height:24px; border-radius:5px; overflow:hidden; background:#f0edf7; }
+  .tl-seg { height:100%; }
+  .seg-sleep { background:#6b4fa0; }
+  .seg-rest  { background:#e8c4c4; }
+  .seg-gap   { background:#f0edf7; }
+
+  /* ── NIGHT CARDS ── */
+  .nights-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:40px; }
+  @media(max-width:560px){ .nights-grid{grid-template-columns:1fr} }
+  .night-card { background:#fff; border-radius:16px; padding:22px 22px 18px; border:1px solid rgba(0,0,0,.06); box-shadow:0 2px 12px rgba(0,0,0,.05); animation: fadeUp 0.7s ease both; transition: box-shadow .2s, transform .2s; position: relative; overflow:hidden; }
+  .night-card:hover { box-shadow:0 6px 24px rgba(0,0,0,.1); transform:translateY(-2px); }
+  .night-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+  .nc-ok::before    { background:linear-gradient(to right,#b8d4c9,#7fc9a8); }
+  .nc-good::before  { background:linear-gradient(to right,#d4a843,#f0c96a); }
+  .nc-mixed::before { background:linear-gradient(to right,#c9b8e8,#a08ed4); }
+  .nc-bad::before   { background:linear-gradient(to right,#e8c4c4,#d4848a); }
+  .night-card:nth-child(1){animation-delay:.05s}
+  .night-card:nth-child(2){animation-delay:.1s}
+  .night-card:nth-child(3){animation-delay:.15s}
+  .night-card:nth-child(4){animation-delay:.2s}
+  .night-card:nth-child(5){animation-delay:.25s}
+  .night-card:nth-child(6){animation-delay:.3s}
+  .night-card:nth-child(7){animation-delay:.35s; grid-column:1/-1}
+  .night-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
+  .night-name { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--midnight); font-weight:700; }
+  .night-sleep { font-size:1.65rem; font-weight:500; color:var(--midnight); line-height:1; }
+  .night-sleep span { font-size:13px; color:var(--dim); font-weight:300; }
+  .sleep-bar-wrap { background:#f0edf7; border-radius:6px; height:6px; margin-bottom:12px; overflow:hidden; }
+  .sleep-bar-fill { height:100%; border-radius:6px; animation:slideIn 1s cubic-bezier(.34,1.2,.64,1) both; }
+  .nc-ok .sleep-bar-fill    { background:linear-gradient(to right,#b8d4c9,#7fc9a8); }
+  .nc-good .sleep-bar-fill  { background:linear-gradient(to right,#d4a843,#f0c96a); }
+  .nc-mixed .sleep-bar-fill { background:linear-gradient(to right,#c9b8e8,#a08ed4); }
+  .nc-bad .sleep-bar-fill   { background:linear-gradient(to right,#e8c4c4,#d4848a); }
+  .nc-meta { display:flex; gap:14px; margin-bottom:10px; flex-wrap:wrap; }
+  .nc-meta-item { display:flex; flex-direction:column; gap:2px; }
+  .nc-meta-key  { font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--dim); }
+  .nc-meta-val  { font-size:14px; font-weight:500; color:var(--midnight); }
+  .walk-badge { display:inline-flex; align-items:center; gap:4px; background:#fff4ee; border:1px solid #f0c0a0; border-radius:20px; padding:4px 11px; font-size:12px; color:#8a4020; margin-bottom:10px; }
+  .tags { display:flex; flex-wrap:wrap; gap:6px; }
+  .tag { font-size:12px; padding:4px 11px; border-radius:20px; }
+  .tag-walk    { background:#e8f4f0; color:#3a7a65; }
+  .tag-anxiety { background:#f4e8e8; color:#8a3a3a; }
+  .tag-pain    { background:#f4ede8; color:#8a5a3a; }
+  .tag-mag     { background:#ede8f4; color:#5a3a8a; }
+  .tag-pillow  { background:#e8eef4; color:#3a5a8a; }
+  .tag-good    { background:#e8f4ee; color:#2a6a4a; }
+  .tag-gadget  { background:#f4ede8; color:#7a4a20; }
+  .tag-room    { background:#f0f4ff; color:#3a4a8a; }
+  .tag-book    { background:#f4f0e8; color:#6a4a20; }
+  .tag-ball    { background:#e8f4f4; color:#1a5a5a; }
+  .tag-tea     { background:#eef4e8; color:#3a6a2a; }
+  .tag-med     { background:#f0ebff; color:#4a2a8a; }
+  .tag-shower  { background:#e8f0f8; color:#2a4a70; }
+  .tag-nap     { background:#e8f4ec; color:#2a6040; }
+  .tag-music   { background:#e8ecf8; color:#2a3a70; }
+  .tag-rls     { background:#fce8ec; color:#8a2030; }
+  .tag-footbath { background:#e8f4f8; color:#1a5060; }
+  .tag-cog     { background:#eef8ee; color:#2a6a2a; }
+  .tag-friends { background:#e8eef8; color:#2a3a7a; }
+
+  /* ── FINDINGS ── */
+  .findings { background:#fff; border-radius:20px; padding:32px; border:1px solid rgba(0,0,0,.06); animation: fadeUp 0.8s 0.35s ease both; }
+  .findings-title { font-family:'Playfair Display',serif; font-size: 1.45rem; margin-bottom:28px; color:var(--midnight); }
+  .finding { display:grid; grid-template-columns:28px 1fr; gap:14px; margin-bottom:22px; align-items:start; }
+  .finding-num { width:32px; height:32px; border-radius:50%; background:var(--midnight); color:var(--lavender); font-size:13px; font-weight:500; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .finding-text strong { display:block; font-weight:500; font-size:15px; color:var(--midnight); margin-bottom:5px; }
+  .finding-text p { font-size:14px; color:var(--dim); line-height:1.7; }
+  .highlight { color:var(--midnight); font-weight:500; }
+
+  /* ── DIARY ENTRIES ── */
+  .diary-section { background:#fff; border-radius:20px; padding:32px; border:1px solid rgba(0,0,0,.06); animation: fadeUp 0.8s 0.4s ease both; margin-bottom: 40px; }
+  .diary-section-title { font-family:'Playfair Display',serif; font-size: 1.45rem; margin-bottom:8px; color:var(--midnight); }
+  .diary-section-sub { font-size: 13px; color:var(--dim); margin-bottom:32px; }
+  .diary-entries { display:flex; flex-direction:column; gap:20px; }
+  .diary-entry { border-radius:14px; padding:20px 22px; border-left:3px solid var(--lavender); background:#faf8ff; }
+  .diary-entry-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; gap:12px; flex-wrap:wrap; }
+  .diary-entry-night { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--midnight); font-weight:700; }
+  .diary-entry-sleep { font-size:1.25rem; font-weight:500; color:var(--midnight); }
+  .diary-entry-sleep span { font-size:10px; color:var(--dim); font-weight:300; }
+  .diary-meta-row { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:10px; }
+  .diary-meta-item { display:flex; flex-direction:column; gap:1px; }
+  .diary-meta-key { font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--dim); }
+  .diary-meta-val { font-size:13px; color:var(--midnight); font-weight:500; }
+  .diary-body { font-size:14px; color:var(--dim); line-height:1.75; }
+  .diary-body p { margin-bottom:6px; }
+  .diary-body p:last-child { margin-bottom:0; }
+  .diary-highlight { color:var(--midnight); font-weight:500; }
+  .diary-note { margin-top:10px; padding:12px 16px; background:#fff4ee; border-radius:8px; font-size:13px; color:#7a4020; line-height:1.6; border-left:2px solid #e8914a; }
+  .diary-note-purple { margin-top:10px; padding:12px 16px; background:#f5f0ff; border-radius:8px; font-size:13px; color:#4a2a8a; line-height:1.6; border-left:2px solid #a080d4; }
+  .diary-note-green { margin-top:10px; padding:12px 16px; background:#f0f8f0; border-radius:8px; font-size:13px; color:#2a6a2a; line-height:1.6; border-left:2px solid #70b870; }
+
+  footer { text-align:center; margin-top:72px; font-size:13px; color:var(--dim); opacity:.6; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- NAV -->
+  <nav class="week-nav">
+    <a href="diary.html" class="wn-home">← Обзор по неделям</a>
+    <div class="wn-weeks">
+      <a href="week1.html" class="wn-link">Неделя 1</a>
+      <a href="week2.html" class="wn-link">Неделя 2</a>
+      <a href="week3.html" class="wn-link">Неделя 3</a>
+      <a href="week4.html" class="wn-link active">Неделя 4</a>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header>
+    <span class="moon">🌙</span>
+    <p class="eyebrow">Дневник сна · 22–28 мая 2026</p>
+    <h1>Как я спала<br><em>эту неделю</em></h1>
+    <p class="subtitle">пятница — четверг · 7 ночей · неделя 4</p>
+    <div class="source-badge">⌚ данные Apple Watch · дневник</div>
+  </header>
+
+  <!-- STATS -->
+  <p class="section-label">Ключевые показатели</p>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-icon">⏱</span>
+      <div class="stat-val">5 ч 58</div>
+      <div class="stat-label">средний сон (Apple Watch)</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">🚶</span>
+      <div class="stat-val">5,6 км</div>
+      <div class="stat-label">средняя ходьба в день</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">📈</span>
+      <div class="stat-val">рекорд</div>
+      <div class="stat-label">лучший средний сон за 4 недели</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">✅</span>
+      <div class="stat-val">3 / 7</div>
+      <div class="stat-label">ночей без долгого ночного перерыва</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">🌟</span>
+      <div class="stat-val">6,5 ч</div>
+      <div class="stat-label">лучшая ночь (Вт/Ср)</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">📍</span>
+      <div class="stat-val">~39 км</div>
+      <div class="stat-label">суммарно пройдено за неделю</div>
+    </div>
+  </div>
+
+  <!-- PROGRESS BANNER -->
+  <div class="progress-banner">
+    <div class="progress-inner">
+      <div class="progress-icon">📊</div>
+      <div class="progress-text">
+        <div class="progress-title">Лучший результат за четыре недели</div>
+        <div class="progress-desc">Apple Watch показывают <strong style="color:var(--sage)">5 ч 58 мин</strong> — рост на 36 минут по сравнению с прошлой неделей. 3 ночи из 7 прошли без долгого перерыва. Появилась новая техника: <em>когнитивное убеждение себя</em> (ночь Вт/Ср). Лучшая ночь — после вечера с друзьями на море. Самое важное открытие недели: эмоциональный фон влияет на сон сильнее, чем километры ходьбы.</div>
+      </div>
+      <div class="progress-compare">
+        <div class="prog-block">
+          <div class="prog-period">Неделя 3</div>
+          <div class="prog-val prog-val-bad">5 ч 22</div>
+        </div>
+        <div class="prog-arrow">↑</div>
+        <div class="prog-block">
+          <div class="prog-period">Неделя 4</div>
+          <div class="prog-val prog-val-good">5 ч 58</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DUAL BAR CHART -->
+  <p class="section-label">Сон и активность по дням</p>
+  <div class="chart-card">
+    <div class="chart-title">Продолжительность сна и пройденные километры</div>
+    <div class="chart-sub">Часы сна (левый столбик) · Километры ходьбы (правый столбик)</div>
+
+    <div class="dual-bars" style="position:relative">
+      <span class="rec-label">≈ норма 7 ч</span>
+
+      <!-- Чт/пт: ~6h, walk Чт ~4km (не на графике, оценка) -->
+      <div class="bar-group">
+        <div class="bar-vals"><span class="bv-sleep">6 ч</span><span class="bv-walk">~4 км</span></div>
+        <div class="bar-pair">
+          <div class="b-sleep" style="height:86%;animation-delay:.05s"></div>
+          <div class="b-walk"  style="height:33%;animation-delay:.08s"></div>
+        </div>
+        <div class="bar-day">Чт</div>
+      </div>
+
+      <!-- Пт/сб: ~5.5h, walk Пт ~2.5km -->
+      <div class="bar-group">
+        <div class="bar-vals"><span class="bv-sleep">5,5 ч</span><span class="bv-walk">2,5 км</span></div>
+        <div class="bar-pair">
+          <div class="b-sleep" style="height:79%;animation-delay:.1s"></div>
+          <div class="b-walk"  style="height:21%;animation-delay:.13s"></div>
+        </div>
+        <div class="bar-day">Пт</div>
+      </div>
+
+      <!-- Сб/вс: ~4h (5-9am), walk Сб ~8km + вечерняя прогулка -->
+      <div class="bar-group">
+        <div class="bar-vals"><span class="bv-sleep">4 ч</span><span class="bv-walk">8 км</span></div>
+        <div class="bar-pair">
+          <div class="b-sleep" style="height:57%;animation-delay:.15s"></div>
+          <div class="b-walk"  style="height:67%;animation-delay:.18s"></div>
+        </div>
+        <div class="bar-day">Сб</div>
+      </div>
+
+      <!-- Вс/пн: ~6h (оценка по графику), walk Вс ~8km -->
+      <div class="bar-group">
+        <div class="bar-vals"><span class="bv-sleep">~6 ч</span><span class="bv-walk">8 км</span></div>
+        <div class="bar-pair">
+          <div class="b-sleep" style="height:86%;animation-delay:.2s"></div>
+          <div class="b-walk"  style="height:67%;animation-delay:.23s"></div>
+        </div>
+        <div class="bar-day">Вс</div>
+      </div>
+
+      <!-- Пн/вт: ~5.5h (фрагм.), walk Пн ~8km, гендер-пати -->
+      <div class="bar-group">
+        <div class="bar-vals"><span class="bv-sleep">5,5 ч</span><span class="bv-walk">8 км</span></div>
+        <div class="bar-pair">
+          <div class="b-sleep" style="height:79%;animation-delay:.25s"></div>
+          <div class="b-walk"  style="height:67%;animation-delay:.28s"></div>
+        </div>
+        <div class="bar-day">Пн</div>
+      </div>
+
+      <!-- Вт/ср: ~6.5h ЛУЧШАЯ, walk Вт ~5.5km + море с друзьями -->
+      <div class="bar-group">
+        <div class="bar-vals"><span class="bv-sleep">6,5 ч</span><span class="bv-walk">5,5 км</span></div>
+        <div class="bar-pair">
+          <div class="b-sleep" style="height:93%;animation-delay:.3s"></div>
+          <div class="b-walk"  style="height:46%;animation-delay:.33s"></div>
+        </div>
+        <div class="bar-day">Вт</div>
+      </div>
+
+      <!-- Ср/чт: ~6h, walk Ср ~8km, прогулка перед сном -->
+      <div class="bar-group">
+        <div class="bar-vals"><span class="bv-sleep">6 ч</span><span class="bv-walk">8 км</span></div>
+        <div class="bar-pair">
+          <div class="b-sleep" style="height:86%;animation-delay:.35s"></div>
+          <div class="b-walk"  style="height:67%;animation-delay:.38s"></div>
+        </div>
+        <div class="bar-day">Ср</div>
+      </div>
+    </div>
+
+    <div class="dual-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--lavender)"></div>Часы сна (Apple Watch)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Км ходьбы</div>
+      <div class="legend-item" style="margin-left:auto;font-size:10px;opacity:.4">Рекомендуемая норма сна: 7–9 ч</div>
+    </div>
+  </div>
+
+  <!-- CORRELATION CHART -->
+  <p class="section-label">Активность и качество следующей ночи</p>
+  <div class="corr-card">
+    <div class="corr-title">Сколько прошла → как спала следующей ночью</div>
+
+    <div class="corr-header">
+      <span></span>
+      <span>💜 Сон (часы)</span>
+      <span>🧡 Ходьба (км)</span>
+    </div>
+    <div class="corr-rows">
+
+      <!-- Чт(~4км) → Чт/пт: 6h, медитация, без перерыва -->
+      <div class="corr-row" style="background:#f0f8f0;border-radius:8px;padding:4px 8px;margin:0 -8px">
+        <div class="corr-day-lbl" style="color:#2a6a2a;font-weight:500">Чт → Пт ✓</div>
+        <div>
+          <div class="mini-bar-wrap"><div class="mini-bar mini-sleep" style="width:86%;animation-delay:.05s"></div></div>
+          <div class="mini-val" style="color:#2a6a2a;font-weight:500">~6 ч · без долгого перерыва</div>
+        </div>
+        <div>
+          <div class="mini-bar-wrap"><div class="mini-bar mini-walk" style="width:33%;animation-delay:.08s"></div></div>
+          <div class="mini-val">~4 км + медитация</div>
+        </div>
+      </div>
+
+      <!-- Пт(2.5км) → Пт/сб: 5.5h, большой перерыв -->
+      <div class="corr-row">
+        <div class="corr-day-lbl">Пт → Сб</div>
+        <div>
+          <div class="mini-bar-wrap"><div class="mini-bar mini-sleep" style="width:79%;animation-delay:.1s"></div></div>
+          <div class="mini-val">~5,5 ч · перерыв к утру</div>
+        </div>
+        <div>
+          <div class="mini-bar-wrap"><div class="mini-bar mini-walk" style="width:21%;animation-delay:.13s"></div></div>
+          <div class="mini-val">~2,5 км</div>
+        </div>
+      </div>
+
+      <!-- Сб(8км + прогулка перед сном) → Сб/вс: 4h, хорошее утро! -->
+      <div class="corr-row" style="background:#fffcf0;border-radius:8px;padding:4px 8px;margin:0 -8px">
+        <div class="corr-day-lbl" style="color:var(--gold);font-weight:500">Сб → Вс ★</div>
+        <div>
+          <div class="mini-bar-wrap"><div class="mini-bar mini-sleep" style="width:57%;animation-delay:.15s"></div></div>
+          <div class="mini-val" style="color:var(--gold);font-weight:500">~4 ч · но проснулась хорошо!</div>
+        </div>
+        <div>
+          <div class="mini-bar-wrap"><div class="mini-bar mini-walk" style="width:67%;animation-delay:.18s"></div></div>
+          <div class="mini-val">~8 км + прогулка вечером</div>
+        </div>
+      </div>
+
+      <!-- Вс(8км) → Вс/пн: ~6h -->
+      <div class="corr-row">
+        <div class="corr-day-lbl">Вс → Пн</div>
+        <div>
+          <div class="mini-bar-wrap"><div class="mini-bar mini-sleep" style="width:86%;animation-delay:.2s"></div></div>
+          <div class="mini-val">~6 ч · умеренно</div>
+        </div>
+        <div>
+          <div class="mini-bar-wrap"><div class="mini-bar mini-walk" style="width:67%;animation-delay:.23s"></div></div>
+          <div class="mini-val">~8 км</div>
+        </div>
+      </div>
+
+      <!-- Пн(8км, гендер-пати) → Пн/вт: плохая ночь -->
+      <div class="corr-row" style="background:#fff5f5;border-radius:8px;padding:4px 8px;margin:0 -8px">
+        <div class="corr-day-lbl" style="color:#c04040">Пн → Вт ✗</div>
+        <div>
+          <div class="mini-bar-wrap"><div class="mini-bar mini-sleep" style="width:79%;animation-delay:.25s"></div></div>
+          <div class="mini-val" style="color:#c04040">~5,5 ч · плохой день после</div>
+        </div>
+        <div>
+          <div class="mini-bar-wrap"><div class="mini-bar mini-walk" style="width:67%;animation-delay:.28s"></div></div>
+          <div class="mini-val">~8 км · тревога (гендер-пати)</div>
+        </div>
+      </div>
+
+      <!-- Вт(5.5км + море) → Вт/ср: ЛУЧШАЯ НОЧЬ -->
+      <div class="corr-row" style="background:#f0f8f0;border-radius:8px;padding:4px 8px;margin:0 -8px">
+        <div class="corr-day-lbl" style="color:#2a6a2a;font-weight:500">Вт → Ср ★★</div>
+        <div>
+          <div class="mini-bar-wrap"><div class="mini-bar mini-sleep" style="width:93%;animation-delay:.3s"></div></div>
+          <div class="mini-val" style="color:#2a6a2a;font-weight:500">~6,5 ч · лучшая ночь!</div>
+        </div>
+        <div>
+          <div class="mini-bar-wrap"><div class="mini-bar mini-walk" style="width:46%;animation-delay:.33s"></div></div>
+          <div class="mini-val">~5,5 км · друзья + море</div>
+        </div>
+      </div>
+
+      <!-- Ср(8км + прогулка перед сном) → Ср/чт: 6h -->
+      <div class="corr-row" style="background:#f0f8f0;border-radius:8px;padding:4px 8px;margin:0 -8px">
+        <div class="corr-day-lbl" style="color:#2a6a2a;font-weight:500">Ср → Чт ✓</div>
+        <div>
+          <div class="mini-bar-wrap"><div class="mini-bar mini-sleep" style="width:86%;animation-delay:.35s"></div></div>
+          <div class="mini-val" style="color:#2a6a2a;font-weight:500">~6 ч · хорошо себя чувствовала</div>
+        </div>
+        <div>
+          <div class="mini-bar-wrap"><div class="mini-bar mini-walk" style="width:67%;animation-delay:.38s"></div></div>
+          <div class="mini-val">~8 км + прогулка перед сном</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="corr-insight">
+      💡 Лучшая ночь (Вт/Ср, 6,5 ч) — при всего 5,5 км ходьбы. Ключ: позитивный вечер с друзьями на море + <span class="highlight">когнитивная техника</span> (убедила себя перед сном, что всё под контролем). Худшая ночь (Пн/Вт) — несмотря на 8 км: причина в тревоге и возбуждении перед гендер-пати. <span class="highlight">Эмоциональный фон влияет на сон сильнее, чем количество пройденных километров.</span>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <p class="section-label">Временная шкала каждой ночи</p>
+  <div class="timeline-card">
+    <div class="tl-title">Структура ночного сна</div>
+    <div class="tl-sub">по данным дневника · шкала 22:00 → 09:00</div>
+    <div class="tl-legend">
+      <div class="tl-legend-item"><span class="tl-dot" style="background:#6b4fa0"></span>Сон</div>
+      <div class="tl-legend-item"><span class="tl-dot" style="background:#e8c4c4"></span>Ворочалась / не спала</div>
+    </div>
+
+    <div class="tl-axis">
+      <div></div>
+      <div class="tl-axis-labels">
+        <span>22:00</span><span>0:00</span><span>2:00</span>
+        <span>4:00</span><span>6:00</span><span>8:00</span>
+      </div>
+    </div>
+
+    <!-- Чт/пт: медитация, ~6h, без долгого перерыва -->
+    <div class="tl-row">
+      <div class="tl-lbl">Чт/пт ✓</div>
+      <div class="tl-track">
+        <div class="tl-seg seg-gap"   style="width:9%"></div>
+        <div class="tl-seg seg-rest"  style="width:5%" title="Медитация перед сном"></div>
+        <div class="tl-seg seg-sleep" style="width:36%" title="Сон"></div>
+        <div class="tl-seg seg-rest"  style="width:5%" title="Туалет"></div>
+        <div class="tl-seg seg-sleep" style="width:18%" title="Снова заснула"></div>
+        <div class="tl-seg seg-gap"   style="width:27%"></div>
+      </div>
+    </div>
+
+    <!-- Пт/сб: большой перерыв ближе к утру, дневной сон -->
+    <div class="tl-row">
+      <div class="tl-lbl">Пт/сб</div>
+      <div class="tl-track">
+        <div class="tl-seg seg-gap"   style="width:5%"></div>
+        <div class="tl-seg seg-rest"  style="width:5%" title="Засыпание"></div>
+        <div class="tl-seg seg-sleep" style="width:23%" title="Сон"></div>
+        <div class="tl-seg seg-rest"  style="width:27%" title="Долгий перерыв ближе к утру"></div>
+        <div class="tl-seg seg-sleep" style="width:22%" title="Снова заснула к утру"></div>
+        <div class="tl-seg seg-gap"   style="width:18%"></div>
+      </div>
+    </div>
+
+    <!-- Сб/вс: казалась не спала до 5 утра, потом спала 5-9 -->
+    <div class="tl-row">
+      <div class="tl-lbl">Сб/вс</div>
+      <div class="tl-track">
+        <div class="tl-seg seg-gap"   style="width:9%"  title="До ~23:00"></div>
+        <div class="tl-seg seg-rest"  style="width:55%" title="Не могла заснуть до ~5:00 (возможно, короткие засыпания)"></div>
+        <div class="tl-seg seg-sleep" style="width:21%" title="Сон 5:00–7:30"></div>
+        <div class="tl-seg seg-rest"  style="width:5%"  title="Небольшой перерыв"></div>
+        <div class="tl-seg seg-sleep" style="width:10%" title="Сон до ~9:00"></div>
+      </div>
+    </div>
+
+    <!-- Вс/пн: данные не записаны, умеренная ночь по графику -->
+    <div class="tl-row">
+      <div class="tl-lbl" style="font-style:italic;opacity:.6">Вс/пн</div>
+      <div class="tl-track" style="opacity:.6">
+        <div class="tl-seg seg-gap"   style="width:9%"></div>
+        <div class="tl-seg seg-rest"  style="width:9%" title="Засыпание"></div>
+        <div class="tl-seg seg-sleep" style="width:27%" title="Сон"></div>
+        <div class="tl-seg seg-rest"  style="width:18%" title="Перерыв"></div>
+        <div class="tl-seg seg-sleep" style="width:27%" title="Снова заснула"></div>
+        <div class="tl-seg seg-gap"   style="width:10%"></div>
+      </div>
+    </div>
+
+    <!-- Пн/вт: заснула быстро, потом долгий перерыв, гендер-пати -->
+    <div class="tl-row">
+      <div class="tl-lbl">Пн/вт ✗</div>
+      <div class="tl-track">
+        <div class="tl-seg seg-gap"   style="width:5%"  title="Легла"></div>
+        <div class="tl-seg seg-sleep" style="width:23%" title="Заснула быстро"></div>
+        <div class="tl-seg seg-rest"  style="width:36%" title="Долгий перерыв — не могла заснуть снова"></div>
+        <div class="tl-seg seg-sleep" style="width:18%" title="Короткий сон к утру"></div>
+        <div class="tl-seg seg-gap"   style="width:18%"></div>
+      </div>
+    </div>
+
+    <!-- Вт/ср: ЛУЧШАЯ, 6.5h без перерывов, море с друзьями -->
+    <div class="tl-row">
+      <div class="tl-lbl">Вт/ср ★</div>
+      <div class="tl-track">
+        <div class="tl-seg seg-gap"   style="width:9%"  title="До ~23:00"></div>
+        <div class="tl-seg seg-rest"  style="width:5%"  title="Засыпание"></div>
+        <div class="tl-seg seg-sleep" style="width:59%" title="Сон ~6,5 ч · без перерывов"></div>
+        <div class="tl-seg seg-gap"   style="width:27%"></div>
+      </div>
+    </div>
+
+    <!-- Ср/чт: ~6h, без долгого перерыва, не переходила в другую комнату -->
+    <div class="tl-row">
+      <div class="tl-lbl">Ср/чт ✓</div>
+      <div class="tl-track">
+        <div class="tl-seg seg-gap"   style="width:9%"  title="До ~23:00"></div>
+        <div class="tl-seg seg-rest"  style="width:5%"  title="Засыпание"></div>
+        <div class="tl-seg seg-sleep" style="width:27%" title="Сон"></div>
+        <div class="tl-seg seg-rest"  style="width:5%"  title="Небольшое пробуждение"></div>
+        <div class="tl-seg seg-sleep" style="width:27%" title="Снова заснула"></div>
+        <div class="tl-seg seg-gap"   style="width:27%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NIGHT CARDS -->
+  <p class="section-label">По каждой ночи</p>
+  <div class="nights-grid">
+
+    <div class="night-card nc-ok">
+      <div class="night-header">
+        <div><div class="night-name">Чт → Пт</div><div style="font-size:10px;color:#2a6a4a;margin-top:2px">без долгого перерыва</div></div>
+        <div style="text-align:right"><div class="night-sleep">~6 ч <span>(Watch)</span></div></div>
+      </div>
+      <div class="sleep-bar-wrap"><div class="sleep-bar-fill" style="width:86%"></div></div>
+      <div class="nc-meta">
+        <div class="nc-meta-item"><div class="nc-meta-key">Структура</div><div class="nc-meta-val">без долгого перерыва</div></div>
+        <div class="nc-meta-item"><div class="nc-meta-key">День после</div><div class="nc-meta-val">хорошо себя чувствовала</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-med">медитация перед сном</span>
+        <span class="tag tag-good">хороший день</span>
+      </div>
+    </div>
+
+    <div class="night-card nc-mixed">
+      <div class="night-header">
+        <div><div class="night-name">Пт → Сб</div><div style="font-size:10px;color:var(--dim);margin-top:2px">долгий перерыв к утру</div></div>
+        <div style="text-align:right"><div class="night-sleep">~5,5 ч <span>(Watch)</span></div></div>
+      </div>
+      <div class="sleep-bar-wrap"><div class="sleep-bar-fill" style="width:79%"></div></div>
+      <div class="walk-badge">🚶 Пт: ~2,5 км</div>
+      <div class="nc-meta">
+        <div class="nc-meta-item"><div class="nc-meta-key">Перерыв</div><div class="nc-meta-val">долгий, ближе к утру</div></div>
+        <div class="nc-meta-item"><div class="nc-meta-key">Дневной сон</div><div class="nc-meta-val">40–60 мин</div></div>
+        <div class="nc-meta-item"><div class="nc-meta-key">День после</div><div class="nc-meta-val">более-менее нормально</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-nap">дневной сон</span>
+        <span class="tag tag-med">медитация днём</span>
+      </div>
+    </div>
+
+    <div class="night-card nc-mixed">
+      <div class="night-header">
+        <div><div class="night-name">Сб → Вс</div><div style="font-size:10px;color:var(--gold);margin-top:2px">короткий сон, хорошее утро</div></div>
+        <div style="text-align:right"><div class="night-sleep">~4 ч <span>(5–9 утра)</span></div></div>
+      </div>
+      <div class="sleep-bar-wrap"><div class="sleep-bar-fill" style="width:57%"></div></div>
+      <div class="walk-badge">🚶 Сб: ~8 км</div>
+      <div class="nc-meta">
+        <div class="nc-meta-item"><div class="nc-meta-key">Засыпание</div><div class="nc-meta-val">казалось — до 5 утра</div></div>
+        <div class="nc-meta-item"><div class="nc-meta-key">Сон</div><div class="nc-meta-val">5:00–9:00 с небольшим перерывом</div></div>
+        <div class="nc-meta-item"><div class="nc-meta-key">Утро</div><div class="nc-meta-val">проснулась — чувствовала себя хорошо</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-walk">прогулка перед сном</span>
+        <span class="tag tag-med">медитация</span>
+        <span class="tag tag-pain">небольшая головная боль днём</span>
+      </div>
+    </div>
+
+    <div class="night-card nc-mixed">
+      <div class="night-header">
+        <div>
+          <div class="night-name">Вс → Пн</div>
+          <div style="font-size:10px;color:var(--dim);margin-top:2px;font-style:italic">запись не велась</div>
+        </div>
+        <div style="text-align:right"><div class="night-sleep">~6 ч <span>(оценка)</span></div></div>
+      </div>
+      <div class="sleep-bar-wrap"><div class="sleep-bar-fill" style="width:86%"></div></div>
+      <div class="walk-badge">🚶 Вс: ~8 км</div>
+      <div class="nc-meta">
+        <div class="nc-meta-item"><div class="nc-meta-key">Данные</div><div class="nc-meta-val">оценка по графику Apple Watch</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag" style="background:#f0edf7;color:var(--dim)">нет записи в дневнике</span>
+      </div>
+    </div>
+
+    <div class="night-card nc-bad">
+      <div class="night-header">
+        <div><div class="night-name">Пн → Вт</div><div style="font-size:10px;color:#c04040;margin-top:2px">гендер-пати · тревога</div></div>
+        <div style="text-align:right"><div class="night-sleep">~5,5 ч <span>(Watch)</span></div></div>
+      </div>
+      <div class="sleep-bar-wrap"><div class="sleep-bar-fill" style="width:79%"></div></div>
+      <div class="walk-badge">🚶 Пн: ~8 км</div>
+      <div class="nc-meta">
+        <div class="nc-meta-item"><div class="nc-meta-key">Особенность</div><div class="nc-meta-val">заснула быстро → долгий перерыв</div></div>
+        <div class="nc-meta-item"><div class="nc-meta-key">День после</div><div class="nc-meta-val">голова болела весь день, хотелось спать</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-anxiety">волнение перед гендер-пати</span>
+        <span class="tag tag-pain">головная боль весь день</span>
+        <span class="tag tag-nap">хотела поспать — не получилось</span>
+      </div>
+    </div>
+
+    <div class="night-card nc-good">
+      <div class="night-header">
+        <div>
+          <div class="night-name">Вт → Ср</div>
+          <div style="font-size:10px;color:var(--gold);margin-top:2px">★ лучшая ночь недели</div>
+        </div>
+        <div style="text-align:right"><div class="night-sleep">~6,5 ч <span>(Watch)</span></div></div>
+      </div>
+      <div class="sleep-bar-wrap"><div class="sleep-bar-fill" style="width:93%"></div></div>
+      <div class="walk-badge">🚶 Вт: ~5,5 км</div>
+      <div class="nc-meta">
+        <div class="nc-meta-item"><div class="nc-meta-key">Структура</div><div class="nc-meta-val">без перерывов</div></div>
+        <div class="nc-meta-item"><div class="nc-meta-key">Вечер до</div><div class="nc-meta-val">друзья + море</div></div>
+        <div class="nc-meta-item"><div class="nc-meta-key">День после</div><div class="nc-meta-val">хорошо, хотелось спать — полежала</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-cog">когнитивная техника</span>
+        <span class="tag tag-friends">друзья + море</span>
+        <span class="tag tag-good">лучший результат</span>
+      </div>
+    </div>
+
+    <div class="night-card nc-ok">
+      <div class="night-header">
+        <div><div class="night-name">Ср → Чт</div><div style="font-size:10px;color:#2a6a4a;margin-top:2px">хорошо · не меняла комнату</div></div>
+        <div style="text-align:right"><div class="night-sleep">~6 ч <span>(Watch)</span></div></div>
+      </div>
+      <div class="sleep-bar-wrap"><div class="sleep-bar-fill" style="width:86%"></div></div>
+      <div class="walk-badge">🚶 Ср: ~8 км</div>
+      <div class="nc-meta">
+        <div class="nc-meta-item"><div class="nc-meta-key">Структура</div><div class="nc-meta-val">без долгого перерыва</div></div>
+        <div class="nc-meta-item"><div class="nc-meta-key">Новое</div><div class="nc-meta-val">не переходила в другую комнату</div></div>
+        <div class="nc-meta-item"><div class="nc-meta-key">День после</div><div class="nc-meta-val">хорошо себя чувствовала</div></div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-walk">прогулка перед сном</span>
+        <span class="tag tag-good">хороший день</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FINDINGS -->
+  <p class="section-label">Выводы</p>
+  <div class="findings">
+    <div class="findings-title">Закономерности за неделю 4</div>
+
+    <div class="finding">
+      <div class="finding-num">1</div>
+      <div class="finding-text">
+        <strong>Лучший результат за четыре недели: 5 ч 58 мин</strong>
+        <p>После трёх недель на уровне 5 ч 22–40 мин — реальный прогресс. <span class="highlight">+36 минут</span> по сравнению с неделей 3. 3 ночи из 7 прошли без долгого перерыва посреди ночи. Прогресс медленный, но устойчивый.</p>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-num">2</div>
+      <div class="finding-text">
+        <strong>Тревога и возбуждение перед событием = плохая ночь</strong>
+        <p>Ночь перед гендер-пати: заснула быстро, потом долгий перерыв, не смогла заснуть снова. Весь следующий день болела голова. <span class="highlight">Эмоциональное возбуждение — не обязательно негативное — нарушает структуру сна</span>. Это та же реакция, что при тревоге.</p>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-num">3</div>
+      <div class="finding-text">
+        <strong>Когнитивная техника сработала — новый инструмент</strong>
+        <p>Перед лучшей ночью (Вт/Ср): «<span class="highlight">убедила себя, что будильник меня разбудит и я буду знать что делать</span>». Это когнитивное переструктурирование — снижение тревоги через рациональные аргументы. Сработало лучше, чем физические ритуалы в эту же ночь.</p>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-num">4</div>
+      <div class="finding-text">
+        <strong>Позитивный вечер + хорошее настроение → лучший сон</strong>
+        <p>Лучшая ночь (Вт/Ср) — после вечера с друзьями на море. Не самая длинная прогулка (5,5 км), но <span class="highlight">качество эмоционального состояния</span> было лучшим за неделю. Социальный контакт и приятные впечатления снижают базовую тревогу.</p>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-num">5</div>
+      <div class="finding-text">
+        <strong>Не переходить в другую комнату — неожиданно хорошая ночь</strong>
+        <p>В ночь Ср/Чт не переходила в другую комнату (в предыдущие ночи переходила) — и поспала хорошо (~6 ч). <span class="highlight">Данных пока мало</span>, чтобы делать вывод, но это противоречит классической рекомендации «если не спишь — уйди из кровати». Стоит понаблюдать дальше.</p>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-num">6</div>
+      <div class="finding-text">
+        <strong>Короткий сон ≠ плохой день (Сб/Вс)</strong>
+        <p>Ночь Сб/Вс — всего ~4 часа сна (5–9 утра), но <span class="highlight">«проснулась и чувствовала себя хорошо»</span>. Компактный непрерывный сон, даже короткий, может восстанавливать лучше, чем долгое время в постели с перерывами. Качество сна важнее количества часов.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DIARY ENTRIES -->
+  <p class="section-label" style="margin-top: 60px;">Дневниковые записи</p>
+  <div class="diary-section">
+    <div class="diary-section-title">Подробные записи по каждой ночи</div>
+    <div class="diary-section-sub">Оригинальный дневник · личные наблюдения · 22–28 мая 2026</div>
+
+    <div class="diary-entries">
+
+      <!-- Чт/пт -->
+      <div class="diary-entry" style="border-left-color:#7fc9a8;background:#f4fbf7;">
+        <div class="diary-entry-header">
+          <div class="diary-entry-night">🌙 Ночь с четверга на пятницу</div>
+          <div class="diary-entry-sleep">~6 ч <span>(Watch)</span></div>
+        </div>
+        <div class="diary-body">
+          <p>Спала <span class="diary-highlight">без долгого перерыва</span> ночью. Около 6 часов. Слушала <span class="diary-highlight">медитацию перед сном</span>.</p>
+          <p>Хорошо себя чувствовала после.</p>
+        </div>
+        <div class="diary-note-green">→ Медитация перед сном + компактная ночь без долгого перерыва = хорошее начало недели.</div>
+      </div>
+
+      <!-- Пт/сб -->
+      <div class="diary-entry">
+        <div class="diary-entry-header">
+          <div class="diary-entry-night">🌙 Ночь с пятницы на субботу</div>
+          <div class="diary-entry-sleep">~5,5 ч <span>(Watch)</span></div>
+        </div>
+        <div class="diary-meta-row">
+          <div class="diary-meta-item"><div class="diary-meta-key">Перерыв</div><div class="diary-meta-val">долгий, ближе к утру</div></div>
+          <div class="diary-meta-item"><div class="diary-meta-key">Дневной сон</div><div class="diary-meta-val">40–60 мин</div></div>
+        </div>
+        <div class="diary-body">
+          <p>Спала с <span class="diary-highlight">долгим перерывом</span> посреди ночи — больше ближе к утру. Более-менее себя чувствовала днём. Поспала <span class="diary-highlight">40–60 минут днём</span>. Слушала медитацию днём.</p>
+        </div>
+      </div>
+
+      <!-- Сб/вс -->
+      <div class="diary-entry" style="border-left-color:var(--gold);background:#fffcf4;">
+        <div class="diary-entry-header">
+          <div class="diary-entry-night">✨ Ночь с субботы на воскресенье <span style="font-size:10px;color:var(--gold);font-family:'DM Sans',sans-serif;font-weight:400">— короткий сон, но хорошее утро</span></div>
+          <div class="diary-entry-sleep" style="color:var(--gold)">~4 ч <span>(5–9 утра)</span></div>
+        </div>
+        <div class="diary-meta-row">
+          <div class="diary-meta-item"><div class="diary-meta-key">В постели с</div><div class="diary-meta-val">~23:00</div></div>
+          <div class="diary-meta-item"><div class="diary-meta-key">Заснула</div><div class="diary-meta-val">~5:00 (возможно, были короткие засыпания)</div></div>
+          <div class="diary-meta-item"><div class="diary-meta-key">Сон</div><div class="diary-meta-val">5:00–9:00 с небольшим перерывом</div></div>
+        </div>
+        <div class="diary-body">
+          <p>Казалось, не могла заснуть до 5 утра — но, возможно, были короткие засыпания. <span class="diary-highlight">Спала с маленьким перерывом с 5 до 9</span>. Проснулась и <span class="diary-highlight">чувствовала себя хорошо</span>.</p>
+          <p>Днём немного болела голова. Вечером <span class="diary-highlight">гуляла перед сном</span>, слушала медитацию.</p>
+        </div>
+        <div class="diary-note-green">→ Несмотря на всего ~4 часа, утро было хорошим. Компактный глубокий сон восстанавливает даже при коротком времени.</div>
+      </div>
+
+      <!-- Пн/вт -->
+      <div class="diary-entry" style="border-left-color:#c04040;background:#fff5f5;">
+        <div class="diary-entry-header">
+          <div class="diary-entry-night">😔 Ночь с понедельника на вторник</div>
+          <div class="diary-entry-sleep" style="color:#c04040">~5,5 ч <span>(Watch)</span></div>
+        </div>
+        <div class="diary-meta-row">
+          <div class="diary-meta-item"><div class="diary-meta-key">Засыпание</div><div class="diary-meta-val">быстро (как только легла)</div></div>
+          <div class="diary-meta-item"><div class="diary-meta-key">Потом</div><div class="diary-meta-val">перерыв → не смогла заснуть</div></div>
+          <div class="diary-meta-item"><div class="diary-meta-key">День</div><div class="diary-meta-val">гендер-пати</div></div>
+        </div>
+        <div class="diary-body">
+          <p>Поспала <span class="diary-highlight">только как только легла</span>, потом перерыв и не могла заснуть. В этот день была <span class="diary-highlight">гендер-пати</span> — была немного взволнована: утром надо было забрать торт, вечером само мероприятие.</p>
+          <p>Весь день <span class="diary-highlight">болела голова и хотелось спать</span>, но днём заснуть не получилось.</p>
+        </div>
+        <div class="diary-note">→ Волнение перед важным событием (даже позитивным) разрушает структуру сна во второй половине ночи.</div>
+      </div>
+
+      <!-- Вт/ср — ЛУЧШАЯ -->
+      <div class="diary-entry" style="border-left-color:var(--gold);background:#fffcf4;">
+        <div class="diary-entry-header">
+          <div class="diary-entry-night">⭐ Ночь со вторника на среду <span style="font-size:10px;color:var(--gold);font-family:'DM Sans',sans-serif;font-weight:400">— лучшая ночь недели</span></div>
+          <div class="diary-entry-sleep" style="color:var(--gold)">~6,5 ч <span>(Watch)</span></div>
+        </div>
+        <div class="diary-meta-row">
+          <div class="diary-meta-item"><div class="diary-meta-key">Структура</div><div class="diary-meta-val">без перерывов</div></div>
+          <div class="diary-meta-item"><div class="diary-meta-key">Вечер до</div><div class="diary-meta-val">встреча с друзьями, море</div></div>
+        </div>
+        <div class="diary-body">
+          <p>Поспала нормально — около <span class="diary-highlight">6,5 часов, без перерывов</span> ночью. Боялась, что из-за сдачи анализов утром опять не высплюсь, но <span class="diary-highlight">убедила себя</span>, что будильник меня разбудит и буду знать что делать.</p>
+          <p>Накануне вечером <span class="diary-highlight">встречалась с друзьями, были на море</span>. Чувствовала себя хорошо. Днём хотелось спать, но не заснула — <span class="diary-highlight">лежала около часа</span>.</p>
+        </div>
+        <div class="diary-note-green">→ Рецепт лучшей ночи: позитивный вечер + когнитивная техника (убедила себя, что всё под контролем) + усталость от насыщенного дня.</div>
+      </div>
+
+      <!-- Ср/чт -->
+      <div class="diary-entry" style="border-left-color:#7fc9a8;background:#f4fbf7;">
+        <div class="diary-entry-header">
+          <div class="diary-entry-night">🌙 Ночь со среды на четверг</div>
+          <div class="diary-entry-sleep">~6 ч <span>(Watch)</span></div>
+        </div>
+        <div class="diary-body">
+          <p>Поспала хорошо — около <span class="diary-highlight">6 часов, без долгого перерыва</span> ночью. <span class="diary-highlight">Не переходила в другую комнату</span>. В остальные дни переходила.</p>
+          <p><span class="diary-highlight">Прогулка перед сном</span>. Хорошо себя чувствовала.</p>
+        </div>
+        <div class="diary-note-purple">→ Интересное наблюдение: в эту ночь не меняла комнату — и спала хорошо. Стоит понаблюдать, связано ли это.</div>
+      </div>
+
+    </div>
+
+    <!-- WEEKLY NOTES -->
+    <div style="margin-top:28px;padding:20px 24px;background:#f5f0ff;border-radius:14px;border-left:3px solid #a080d4;">
+      <div style="font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:#4a2a8a;margin-bottom:10px;font-weight:500;">Заметки за неделю</div>
+      <div style="font-size:14px;color:#3a1a6a;line-height:1.75;">
+        <p style="margin-bottom:8px;">— Гендер-пати! Важное событие.</p>
+        <p style="margin-bottom:8px;">— Сдача анализов утром — боялась, но справилась с тревогой через убеждение себя.</p>
+        <p style="margin-bottom:8px;">— Вечер с друзьями на море → лучшая ночь недели.</p>
+        <p style="margin-bottom:8px;">— Медитации продолжаются — уже 2-я неделя подряд.</p>
+        <p>— Не переходила в другую комнату в ночь Ср/Чт — надо понаблюдать ещё.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>Неделя 4 · 22–28 мая 2026 · Apple Watch + личные записи · подготовлено по рекомендации психолога</p>
+  </footer>
+
+</div>
+</body>
+</html>
